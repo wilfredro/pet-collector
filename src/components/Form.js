@@ -1,5 +1,5 @@
 import React from 'react'
-import { withFormik, Field, Form } from 'formik'
+import { withFormik, Field, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup';
 import { connect } from "react-redux";
 import { addPet, toggleMode, updatePet, removePet } from "../actions/index.js";
@@ -41,17 +41,17 @@ const Collector = ({
                     <div className="col-sm-6">
                     <h3>Owner Info</h3>
                         <div className="form-group">
-                            <Field className="form-control" type="input" name="name" placeholder="Your name"/>   
-                            { touched.name && errors.name && <span>{errors.name}</span> }
+                            <Field className={"form-control " + (touched.name && errors.name && "is-invalid")} type="input" name="name" placeholder="Your name"/>   
+                            <ErrorMessage className="invalid-feedback" component="span" name="name" />
                         </div>
                         <div className="form-group">
-                            <Field className="form-control" type="email" name="email" placeholder="Your email"/>
-                            { touched.email && errors.email && <span>{errors.email}</span> }
+                            <Field className={"form-control " + (touched.email && errors.email && "is-invalid")} type="email" name="email" placeholder="Your email"/>
+                            <ErrorMessage className="invalid-feedback" component="span" name="email" />
                         </div>
                         <div className="form-group">
-                        <button className="btn btn-primary" type="submit">{mode === "CREATE" ? "Add" : "Update"}</button>
-                        <button className="btn btn-secondary" type="button" onClick={() => {toggleMode("VIEW")}}>Cancel</button>
-                        {mode === "EDIT" && <button className="btn btn-outline-danger" onClick={() => {removePet(editId)}}>Delete</button>}
+                            <button className="btn btn-primary" type="submit">{mode === "CREATE" ? "Add" : "Update"}</button>
+                            <button className="btn btn-secondary" type="button" onClick={() => {toggleMode("VIEW")}}>Cancel</button>
+                            {mode === "EDIT" && <button className="btn btn-danger" onClick={() => {removePet(editId)}}>Delete</button>}
                     </div>
                     </div>
                 </div>

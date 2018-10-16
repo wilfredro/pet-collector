@@ -17,13 +17,13 @@ const mapStateToProps = state => {
                     <p className="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
                 </div>
             </div>
-             <div className="container-fluid">
+             <div className="container">
                 <div className="row">
-                    <div className="col-sm-3">
+                    <div className="col-sm-4">
                     <h2>Pet List</h2>
                         <PetList/>
                     </div>
-                    <div className="col-sm-9">
+                    <div className="col-sm-8">
                         { 
                             mode === "CREATE" ?   
                             <PetForm />
