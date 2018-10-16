@@ -49,10 +49,6 @@ const Collector = ({
                             { touched.email && errors.email && <span>{errors.email}</span> }
                         </div>
                         <div className="form-group">
-                            <Field className="form-control" type="input" name="pet_name" placeholder="Your pet's name"/>
-                            { touched.pet_name && errors.pet_name && <span>{errors.pet_name}</span> }
-                        </div>
-                        <div className="form-group">
                         <button className="btn btn-primary" type="submit">{mode === "CREATE" ? "Add" : "Update"}</button>
                         <button className="btn btn-secondary" type="button" onClick={() => {toggleMode("VIEW")}}>Cancel</button>
                         {mode === "EDIT" && <button className="btn btn-outline-danger" onClick={() => {removePet(editId)}}>Delete</button>}
