@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React from "react";
 import PetList from "./List";
 import PetForm from "./Form";
 import Header from "./Header";

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { withFormik, Field, Form } from 'formik'
 import * as Yup from 'yup';
 import { connect } from "react-redux";
