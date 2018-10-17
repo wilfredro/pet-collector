@@ -90,7 +90,7 @@ const Collector = ({
                             <button className="btn btn-primary mr-2" type="submit">{mode === "ADD" ? "Add" : "Update"}</button>
                             <button className="btn btn-secondary" type="button" onClick={(e) => {
                                 e.preventDefault();
-                                toggleMode("")
+                                toggleMode("") //reset mode
                             }}>Cancel</button>
                         </div>
                     </div>
@@ -103,16 +103,16 @@ const Collector = ({
 
 const FormikForm = withFormik({
     enableReinitialize: true,
-    mapPropsToValues({ name, email, zip, petName, gender, breed, id, pets, userId, mode }) {
-        if (userId > 0 && mode === "EDIT") {
+    mapPropsToValues({ name, email, zip, petName, gender, breed, id, pets, editId, mode }) {
+        if (editId > 0 && mode === "EDIT") {
             return {
-                name: pets[userId].name || '',
-                email: pets[userId].email || '',
-                zip: pets[userId].zip || '',
-                petName: pets[userId].petName || '',
-                gender: pets[userId].gender || '',
-                breed: pets[userId].breed || '',
-                id: parseInt(userId, 10)
+                name: pets[editId].name || '',
+                email: pets[editId].email || '',
+                zip: pets[editId].zip || '',
+                petName: pets[editId].petName || '',
+                gender: pets[editId].gender || '',
+                breed: pets[editId].breed || '',
+                id: parseInt(editId, 10)
             }
         }
         else {
@@ -138,8 +138,8 @@ const FormikForm = withFormik({
     handleSubmit(values,bag) {
         let currMode = bag.props.mode;
         if (currMode === "EDIT") {
-                if (JSON.stringify(bag.props.pets[bag.props.userId]) !== JSON.stringify(values)) {
-                    let obj = {[bag.props.userId] : values};
+                if (JSON.stringify(bag.props.pets[bag.props.editId]) !== JSON.stringify(values)) {
+                    let obj = {[bag.props.editId] : values};
                     bag.props.updatePet(obj);
             }
         }
@@ -148,6 +148,7 @@ const FormikForm = withFormik({
             bag.props.addPet(obj);
             bag.resetForm();
         }
+        //reset mode
         bag.props.toggleMode("");
     },
 })(Collector);

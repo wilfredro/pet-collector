@@ -16,12 +16,12 @@ const Listing = ({ pets, editMode }) => (
   <ul className="list-group">
     { Object.entries(pets).map(([key,value]) => (
         <li className='list-group-item' key={key}>
-            <div>
+            <p style={{wordBreak: 'break-word'}}>
                 <span className="font-weight-bold">Pet: </span>{value.petName}<br/>
                 <span className="font-weight-bold">Owner: </span>{value.name}<br/>
                 <span className="font-weight-bold">Email: </span>{value.email}
                 <button className="btn btn-outline-secondary float-right" onClick={() => {editMode("EDIT", key)}}>Edit</button>
-            </div>
+            </p>
         </li>
     ))}
   </ul>

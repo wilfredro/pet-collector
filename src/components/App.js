@@ -2,6 +2,7 @@ import React from "react";
 import PetList from "./List";
 import PetForm from "./Form";
 import Header from "./Header";
+import rollieImg from '../images/rollie.png'
 import { connect } from "react-redux";
 import { toggleMode } from '../actions/index.js';
 
@@ -12,16 +13,24 @@ const mapDispatchToProps = dispatch => {
   };
 
 const mapStateToProps = state => {
-    return { mode: state.mode, editId: state.editId, petsCount: Object.keys(state.pets).length };
+    return { mode: state.mode, petsCount: Object.keys(state.pets).length };
 };
 
- const App = ({mode, editId, toggleMode, petsCount}) => (
+ const App = ({mode, toggleMode, petsCount}) => (
     <div>
         <Header />
         <div className="jumbotron jumbotron-fluid">
             <div className="container">
+            <div className="row">
+                <div className="col-sm-10">
                 <h1 className="display-4">Welcome Hooman!</h1>
-                <p className="lead">Hi, my name is Rollie. I'm almost a 2 year old english bulldog living in New York City! I'm looking for some furends to hang out with so I told my dad to build this app to collect pet and owner info (we can schedule play dates!) </p>
+                <p className="lead">Hi, my name is Rollie. I'm a 2-year-old english bulldog living in New York City! I'm looking for some new fur-ends to hang out with, so I told my dad to build this app to collect pet and owner info. We can schedule play dates!</p>
+                <p className="lead">If you're too cool for this, you can follow me on the GRAM <a rel="noopener noreferrer" className="card-link" href="https://www.instagram.com/rollie_the_bully/" target="_blank">@rollie_the_bulldog</a>!</p>
+                </div>
+                <div className="col-sm-2">
+                    <img className="rounded" src={rollieImg} alt="Hello Ladies!"/>
+                </div>
+                </div>
             </div>
         </div>
         <div className="container">
@@ -32,13 +41,8 @@ const mapStateToProps = state => {
                 </div>
                 <div className="col-sm-8">
                     { 
-                        mode === "ADD" ?   
+                        mode !== "" ?   
                         <PetForm />
-                        : null
-                    }
-                    { 
-                        mode === "EDIT" ?   
-                        <PetForm userId={editId} />
                         : null
                     }
                 </div>

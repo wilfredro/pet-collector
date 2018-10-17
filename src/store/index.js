@@ -10,6 +10,8 @@ store.subscribe(throttle(() => {
         saveState({
             pets: store.getState().pets,
             id: store.getState().id,
+            mode: store.getState().mode,
+            editId: store.getState().editId
         });
     }, 1000));
 
