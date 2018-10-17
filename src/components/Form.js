@@ -50,8 +50,14 @@ const Collector = ({
                         </div>
                         <div className="form-group">
                             <button className="btn btn-primary" type="submit">{mode === "CREATE" ? "Add" : "Update"}</button>
-                            <button className="btn btn-secondary" type="button" onClick={() => {toggleMode("VIEW")}}>Cancel</button>
-                            {mode === "EDIT" && <button className="btn btn-danger" onClick={() => {removePet(editId)}}>Delete</button>}
+                            <button className="btn btn-secondary" type="button" onClick={(e) => {
+                                e.preventDefault();
+                                toggleMode("VIEW")
+                            }}>Cancel</button>
+                            {mode === "EDIT" && <button className="btn btn-danger" onClick={(e) => {
+                                e.preventDefault();
+                                removePet(editId)
+                                }}>Delete</button>}
                     </div>
                     </div>
                 </div>
@@ -68,6 +74,7 @@ const FormikForm = withFormik({
             return {
                 name: pets[userId].name || '',
                 email: pets[userId].email || '',
+                id: parseInt(userId, 10)
             }
         }
         else {
@@ -85,8 +92,10 @@ const FormikForm = withFormik({
     handleSubmit(values,bag) {
         let currMode = bag.props.mode;
         if (currMode === "EDIT") {
-            let obj = {[bag.props.userId] : values};
-            bag.props.updatePet(obj);
+                if (JSON.stringify(bag.props.pets[bag.props.userId]) !== JSON.stringify(values)) {
+                    let obj = {[bag.props.userId] : values};
+                    bag.props.updatePet(obj);
+            }
         }
         else {
             let obj = {[bag.props.id] : values};
