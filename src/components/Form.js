@@ -82,6 +82,11 @@ const Collector = ({
                             <Field className={"form-control " + (touched.breed && errors.breed && "is-invalid")} type="input" name="breed" placeholder="Your pet's breed is"/>
                             <ErrorMessage className="invalid-feedback" component="span" name="breed" />
                         </div>
+                        <div className="form-group">
+                            <label htmlFor="breed">Your pet's weight is</label>
+                            <Field className={"form-control " + (touched.weight && errors.weight && "is-invalid")} type="tel" name="weight" maxLength="3" placeholder="Your pet's weight is (optional)"/>
+                            <ErrorMessage className="invalid-feedback" component="span" name="weight" />
+                        </div>
                     </div>
                 </div>
                 <div className="row">
@@ -103,7 +108,7 @@ const Collector = ({
 
 const FormikForm = withFormik({
     enableReinitialize: true,
-    mapPropsToValues({ name, email, zip, petName, gender, breed, id, pets, editId, mode }) {
+    mapPropsToValues({ name, email, zip, petName, gender, breed, weight, id, pets, editId, mode }) {
         if (editId > 0 && mode === "EDIT") {
             return {
                 name: pets[editId].name || '',
@@ -112,6 +117,7 @@ const FormikForm = withFormik({
                 petName: pets[editId].petName || '',
                 gender: pets[editId].gender || '',
                 breed: pets[editId].breed || '',
+                weight: pets[editId].weight || '',
                 id: parseInt(editId, 10)
             }
         }
@@ -123,6 +129,7 @@ const FormikForm = withFormik({
                 petName: petName || '',
                 gender: gender || '',
                 breed: breed || '',
+                weight: weight || '',
                 id: id || 1
             }
         }
@@ -134,6 +141,7 @@ const FormikForm = withFormik({
         petName: Yup.string().required('Your pet\'s name is required'),
         gender: Yup.string().required('Your pet\'s gender is required'),
         breed: Yup.string().required('Your pet\'s breed is required'),
+        weight: Yup.number().min(1).max(500).typeError('Please enter numbers only'),
       }),
     handleSubmit(values,bag) {
         let currMode = bag.props.mode;
