@@ -23,13 +23,10 @@ const mapStateToProps = state => {
 };
 
 const Collector = ({
-    values,
     errors,
     touched,
-    id,
     mode,
     toggleMode,
-    pets,
     editId,
     removePet
 }) => (
@@ -58,7 +55,7 @@ const Collector = ({
                                 e.preventDefault();
                                 removePet(editId)
                                 }}>Delete</button>}
-                    </div>
+                        </div>
                     </div>
                 </div>
             </Form>

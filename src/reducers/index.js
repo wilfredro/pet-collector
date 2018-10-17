@@ -10,7 +10,7 @@ const initialState = {
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
         case TOGGLE_MODE: 
-            return {...state, mode: action.payload };
+            return { ...state, mode: action.payload };
         case EDIT_MODE: 
             return {
                 ...state,
