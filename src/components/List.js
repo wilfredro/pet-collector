@@ -17,7 +17,9 @@ const Listing = ({ pets, editMode }) => (
     { Object.entries(pets).map(([key,value]) => (
         <li className='list-group-item' key={key}>
             <div>
-                {value.email}
+                <span className="font-weight-bold">Pet: </span>{value.petName}<br/>
+                <span className="font-weight-bold">Owner: </span>{value.name}<br/>
+                <span className="font-weight-bold">Email: </span>{value.email}
                 <button className="btn btn-outline-secondary float-right" onClick={() => {editMode("EDIT", key)}}>Edit</button>
             </div>
         </li>

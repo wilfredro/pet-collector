@@ -23,38 +23,75 @@ const mapStateToProps = state => {
 };
 
 const Collector = ({
+    values,
     errors,
     touched,
     mode,
     toggleMode,
     editId,
-    removePet
+    removePet,
 }) => (
    <div className="container">
        <div className="row">
         <div className="col-sm-12">
             <Form>
                 <div className="row">
+                    <div className="col-sm-12">
+                        <h3>{mode === "EDIT" ? "Edit" : "Enter"} Your Info:  
+                        {mode === "EDIT" && <button className="btn btn-danger float-right" onClick={(e) => {
+                            e.preventDefault();
+                            removePet(editId)
+                            }}>Delete</button>}</h3>
+                        </div>
+                </div>
+                <div className="row">
                     <div className="col-sm-6">
-                    <h3>Owner Info</h3>
                         <div className="form-group">
-                            <Field className={"form-control " + (touched.name && errors.name && "is-invalid")} type="input" name="name" placeholder="Your name"/>   
+                            <label htmlFor="name">Your name is</label>
+                            <Field className={"form-control " + (touched.name && errors.name && "is-invalid")} type="input" name="name" placeholder="Your name is"/>   
                             <ErrorMessage className="invalid-feedback" component="span" name="name" />
                         </div>
                         <div className="form-group">
-                            <Field className={"form-control " + (touched.email && errors.email && "is-invalid")} type="email" name="email" placeholder="Your email"/>
+                            <label htmlFor="email">Your email is</label>
+                            <Field className={"form-control " + (touched.email && errors.email && "is-invalid")} type="email" name="email" placeholder="Your email is"/>
                             <ErrorMessage className="invalid-feedback" component="span" name="email" />
                         </div>
                         <div className="form-group">
-                            <button className="btn btn-primary" type="submit">{mode === "CREATE" ? "Add" : "Update"}</button>
+                            <label htmlFor="zip">Your zip code is</label>
+                            <Field className={"form-control " + (touched.zip && errors.zip && "is-invalid")} maxLength="5" type="tel" name="zip" placeholder="Your zip code is"/>
+                            <ErrorMessage className="invalid-feedback" component="span" name="zip" />
+                        </div>
+                    </div>
+                    <div className="col-sm-6">
+                        <div className="form-group">
+                            <label htmlFor="petName">Your pet's name is</label>
+                            <Field className={"form-control " + (touched.petName && errors.petName && "is-invalid")} type="input" name="petName" placeholder="Your pet's name is"/>   
+                            <ErrorMessage className="invalid-feedback" component="span" name="petName" />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="gender">Your pet is a</label>
+                            <Field className={"form-control " + (touched.gender && errors.gender && "is-invalid")} name="gender" component="select">
+                                <option value="">Your pet is a</option>
+                                <option value="He">He</option>
+                                <option value="She">She</option>
+                            </Field>
+                            <ErrorMessage className="invalid-feedback" component="span" name="gender" />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="breed">Your pet's breed is</label>
+                            <Field className={"form-control " + (touched.breed && errors.breed && "is-invalid")} type="input" name="breed" placeholder="Your pet's breed is"/>
+                            <ErrorMessage className="invalid-feedback" component="span" name="breed" />
+                        </div>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-sm-12">
+                        <div className="form-group float-right">
+                            <button className="btn btn-primary mr-2" type="submit">{mode === "ADD" ? "Add" : "Update"}</button>
                             <button className="btn btn-secondary" type="button" onClick={(e) => {
                                 e.preventDefault();
-                                toggleMode("VIEW")
+                                toggleMode("")
                             }}>Cancel</button>
-                            {mode === "EDIT" && <button className="btn btn-danger" onClick={(e) => {
-                                e.preventDefault();
-                                removePet(editId)
-                                }}>Delete</button>}
                         </div>
                     </div>
                 </div>
@@ -66,11 +103,15 @@ const Collector = ({
 
 const FormikForm = withFormik({
     enableReinitialize: true,
-    mapPropsToValues({ name, email, id, pets, userId, mode }) {
+    mapPropsToValues({ name, email, zip, petName, gender, breed, id, pets, userId, mode }) {
         if (userId > 0 && mode === "EDIT") {
             return {
                 name: pets[userId].name || '',
                 email: pets[userId].email || '',
+                zip: pets[userId].zip || '',
+                petName: pets[userId].petName || '',
+                gender: pets[userId].gender || '',
+                breed: pets[userId].breed || '',
                 id: parseInt(userId, 10)
             }
         }
@@ -78,13 +119,21 @@ const FormikForm = withFormik({
             return {
                 name: name || '',
                 email: email || '',
+                zip: zip || '',
+                petName: petName || '',
+                gender: gender || '',
+                breed: breed || '',
                 id: id || 1
             }
         }
     },
     validationSchema: Yup.object().shape({
         name: Yup.string().required('Your name is required'),
-        email: Yup.string().email('Enter a valid email').required('Your email is required')
+        email: Yup.string().email('Enter a valid email').required('Your email is required'),
+        zip: Yup.string().matches(/^[0-9]*$/, 'Please enter a 5 digit zip code').min(5, 'Please enter a 5 digit zip code').required('Your zip code is required'),
+        petName: Yup.string().required('Your pet\'s name is required'),
+        gender: Yup.string().required('Your pet\'s gender is required'),
+        breed: Yup.string().required('Your pet\'s breed is required'),
       }),
     handleSubmit(values,bag) {
         let currMode = bag.props.mode;
@@ -99,7 +148,7 @@ const FormikForm = withFormik({
             bag.props.addPet(obj);
             bag.resetForm();
         }
-        bag.props.toggleMode("VIEW");
+        bag.props.toggleMode("");
     },
 })(Collector);
 
