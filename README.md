@@ -18,7 +18,7 @@ PetCollector (aka R-Ollie) is a front-end app that collects pet and pet owner in
 
 ## Bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app)
 
-After you clone repo, you run the following scripts in the project directory:
+After you clone repo, you can run the following scripts in the project directory:
 
 ### `npm start`
 
